@@ -24,6 +24,8 @@
 ; second version (uses average-damp)
 ; we are "dampening" the oscillation of f(x)=c/x so that we approach sqrt(c)
 (define (sqrt x)
+  (define (average-damp f)
+    (lambda (x) (average (f x) x)))
   (fixed-point
    (average-damp (lambda (y) (/ x y)))
    1))
@@ -38,4 +40,3 @@
         new
         (iter new (f new))))
   (iter start (f start)))
-
