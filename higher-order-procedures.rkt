@@ -42,13 +42,12 @@
   (iter start (f start)))
 
 ; zeros of f
-(define (sqrt x)
-  (define square (lambda (x) (* x x)))
-  
-  (define (newton f guess)
-    (define dx 0.000001)
-    (define deriv (lambda (f) (lambda (x) (/ (+ (f x) (f (+ x dx))) dx))))
-    (define df (deriv f))
-    (fixed-point (lambda (x) (- x (/ (f x) (df x)))) 1.0))
+(define square (lambda (x) (* x x)))
+(define dx 0.000001)
+(define deriv (lambda (f) (lambda (x) (/ (+ (f x) (f (+ x dx))) dx))))
+(define (newton f guess)
+  (define df (deriv f))
+  (fixed-point (lambda (x) (- x (/ (f x) (df x)))) 1.0))
 
+(define (sqrt x)
   (newton (lambda (y) (- x (square y))) 1))
