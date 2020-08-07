@@ -16,19 +16,19 @@
   (/ (+ x y) 2))
 
 ; first version (does not use average-damp)
-(define (sqrt x)
-  (fixed-point
-   (lambda (y) (average (/ x y) y))
-   1.0))
+;(define (sqrt x)
+;  (fixed-point
+;   (lambda (y) (average (/ x y) y))
+;   1.0))
 
 ; second version (uses average-damp)
 ; we are "dampening" the oscillation of f(x)=c/x so that we approach sqrt(c)
-(define (sqrt x)
-  (define (average-damp f)
-    (lambda (x) (average (f x) x)))
-  (fixed-point
-   (average-damp (lambda (y) (/ x y)))
-   1))
+;(define (sqrt x)
+;  (define (average-damp f)
+;    (lambda (x) (average (f x) x)))
+;  (fixed-point
+;   (average-damp (lambda (y) (/ x y)))
+;   1))
 
 ; iterates on f until we reach the fixed point
 (define (fixed-point f start)
@@ -40,3 +40,15 @@
         new
         (iter new (f new))))
   (iter start (f start)))
+
+; zeros of f
+(define (sqrt x)
+  (define square (lambda (x) (* x x)))
+  
+  (define (newton f guess)
+    (define dx 0.000001)
+    (define deriv (lambda (f) (lambda (x) (/ (+ (f x) (f (+ x dx))) dx))))
+    (define df (deriv f))
+    (fixed-point (lambda (x) (- x (/ (f x) (df x)))) 1.0))
+
+  (newton (lambda (y) (- x (square y))) 1))
