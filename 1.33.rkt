@@ -24,14 +24,22 @@
 (println (filter (lambda (x) (= (remainder x 2) 0)) (list 1 2 3 4)))
 
 ;; prime filter
+(define list-range
+	(lambda (start end)
+		(if (= start end)
+			'()
+			(cons start (list-range (+ 1 start) end)))))
 (define (primes a b)
-	(define list-range
-		(lambda (start end)
-			(if (= start end)
-				'()
-				(cons start (list-range (+ 1 start) end)))))
 	(filter
 		prime?
 		(list-range a b)))
 
 (println (primes 1 10))
+
+;; coprime filter
+(define (coprimes n)
+	(filter
+		(lambda (x) (= (gcd x n) 1))
+	 	(list-range 1 n)))
+
+(println (coprimes 10)) 
