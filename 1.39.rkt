@@ -5,9 +5,9 @@
 	(cont-frac
 		(lambda (i)
 			(if (= i 0)
-				(expt x i)
+				x
 				(* x x -1)))
-		(lambda (i) (- (* #i2 i) #i1))
+		(lambda (i) (+ (* #i2 i) #i1))
 		k))
 
 (println (tan-cf 0.7854 100))
