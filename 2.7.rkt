@@ -28,11 +28,13 @@
 		(max p1 p2 p3 p4))))
 
 (define (div-interval x y)
-	(mul-interval
-		x
-		(make-interval
-			(/ 1.0 (upper-bound y))
-			(/ 1.0 (lower-bound y)))))
+	(if (= (upper-bound y) (lower-bound y))
+		(error "Divisor must have width > 0")
+		(mul-interval
+			x
+			(make-interval
+				(/ 1.0 (upper-bound y))
+				(/ 1.0 (lower-bound y))))))
 
 ; test
 ; 6.8 ohms with 10% tolerance
@@ -48,3 +50,6 @@
 			(div-interval unit-interval r1)
 			(div-interval unit-interval r2)))))
 (println r)
+
+; testing div by zero error
+; (div-interval (make-interval 1.0 10.0) (make-interval 5.0 5.0))
