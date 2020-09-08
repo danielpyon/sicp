@@ -1,18 +1,30 @@
 #lang racket
 
+; implementation using display
+
+;(define (fringe tree)
+;	(cond
+;		((null? tree)
+;			(void))
+;		((not (pair? tree))
+;			(begin
+;				(display (string-append (number->string tree) " "))
+;				(void)))
+;		(else
+;			(begin
+;				(fringe (car tree))
+;				(fringe (cdr tree))
+;				(void)))))
+
+
+; implementation without display
+
 (define (fringe tree)
 	(cond
-		((null? tree)
-			(void))
-		((not (pair? tree))
-			(begin
-				(display (string-append (number->string tree) " "))
-				(void)))
-		(else
-			(begin
-				(fringe (car tree))
-				(fringe (cdr tree))
-				(void)))))
+		((null? tree) '())
+		((not (pair? tree)) (list tree))
+		(else (append (fringe (car tree)) (fringe (cdr tree))))))
+; cons append list
 
 (define x (list (list 1 2) (list 3 4)))
 (fringe x)
