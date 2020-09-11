@@ -30,6 +30,16 @@
 (define (product? x) (and (pair? x) (eq? (car x) '*)))
 (define (multiplier p) (cadr p))
 (define (multiplicand p) (caddr p))
+(define (exponentiation? x)
+	(and (pair? x) (eq? '** (car x))))
+(define (base x) (cadr x))
+(define (exponent x) (caddr x))
+(define (make-exponentiation x y)
+	(cond
+		((= y 1) x)
+		((= x 0) 0)
+		((= x 1) 1)
+		(else (list '** x y))))
 
 (define (deriv expr var)
 	(cond
@@ -45,9 +55,12 @@
 					(deriv (multiplicand expr) var))
 				(make-product (deriv (multiplier expr) var)
 					(multiplicand expr))))
+		((exponentiation? expr)
+			(make-product
+				(exponent expr)
+				(make-exponentiation (base expr) (- (exponent expr) 1))))
 		(else
 			(error "unknown expression type: DERIV" expr))))
 
-; 3x^3 + 4x^2 + x + 3 => 9x^2 + 8x + 1
-(deriv '(+ (* 3 x x x) (* 4 x x) x 3) 'x)
 (deriv '(* x y) 'x)
+(deriv '(** x 2) 'x)
