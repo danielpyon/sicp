@@ -1,0 +1,25 @@
+The good-enough? test used in computing square roots will not be very effective for finding the square roots of very small numbers. Also, in real computers, arithmetic operations are almost always performed with limited precision. This makes our test inadequate for very large numbers. Explain these statements, with examples showing how the test fails for small and large numbers. An alternative strategy for implementing good-enough? is to watch how guess changes from one iteration to the next and to stop when the change is a very small fraction of the guess. Design a square-root procedure that uses this kind of end test. Does this work better for small and large numbers?
+
+---
+
+For reference:
+
+(define (good-enough? guess x)
+  (< (abs (- (square guess) x)) 0.001))
+
+(define (sqrt-iter guess x)
+  (if (good-enough? guess x)
+      guess
+      (sqrt-iter (improve guess x)
+                 x)))
+
+(sqrt-iter 1.0 0.00000001)
+
+If x is tiny, then the good-enough will return true too quickly so the answer will not be accurate.
+If x is massive, then the good-enough will never return true because the difference will never be less than 0.001.
+
+The improvement is:
+(define (good-enough? guess x)
+  (< (abs (- guess x)) (* guess 0.001)))
+
+So the threshold is proportional to the guess. If the guess is small, then the threshold is smaller so it will get an accurate answer. If the guess is large, then the threshold will be larger, so the algorithm will terminate.

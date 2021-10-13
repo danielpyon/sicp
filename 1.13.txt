@@ -1,0 +1,26 @@
+Prove that Fib(n) is the closest integer to phi^n / 5, where phi = (1 + sqrt 5)/2. Hint: Let psi = (1 - sqrt 5)/2. Use induction and the definition of the Fibonacci numbers (see section 1.2.2) to prove that Fib(n) = (phi^n - psi^n)/ sqrt 5.
+
+---
+
+Fib(1) = 1
+Fib(2) = 1
+Fib(n) = Fib(n - 1) + Fib(n - 2)
+
+
+Prove that sqrt(5) * Fib(n) = (1 + sqrt(5))^n /2 - (1 - sqrt(5))^n /2
+
+Inductive step:
+	Let a = (1 + sqrt5) / 2, b = (1 - sqrt5) / 2
+	Assume sqrt(5) Fib(k) = a^k - b^k. for some k <= 3.
+
+	sqrt(5) * Fib(n) = sqrt(5) * Fib(n - 1) + sqrt(5) * Fib(n - 2)
+	
+	From the induction hypothesis,
+	sqrt(5) * Fib(n) = (a^(n-1) - b^(n-1)) + (a^(n-2) + b^(n-2))
+	sqrt(5) * Fib(n) = (a^(n-1) + a^(n-2)) - (b^(n-1) + b^(n-2))
+
+	sqrt(5) * Fib(n) = a^(n-2) (1 + a) - (b^(n-2) (1 + b))
+					 = a^n - b^n. QED.
+
+	The last step where we changed a^(n-2)(1+a) to a^n works since 1+a = a^2 (similarly 1+b=b^2).
+	This is true since a and b are roots of the polynomail x^2 - x - 1 = 0
