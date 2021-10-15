@@ -39,8 +39,19 @@
   [a b]
   (filtered-accumulate #(+ (square %1) %2) prime? 0 identity a inc b))
 
+(defn relative-prime-product
+  [n]
+  (defn gcd [a b]
+    (if (zero? b)
+      a
+      (recur b (mod a b))))
+  (filtered-accumulate * #(= (gcd n %) 1) 1 identity 1 inc (dec n)))
+
+
 (println (filtered-accumulate * even? 1 identity 1 inc 10))
 (println (reduce * (filter even? (range 1 11))))
 (println (sum-of-squares-of-primes 2 100))
+(println (relative-prime-product 10))
 
+; 10 -> 1 * 2 * 3 * 7 * 9
 
