@@ -1,0 +1,18 @@
+Suppose we define the procedure
+
+(define (f g)
+  (g 2))
+
+Then we have
+
+(f square)
+4
+
+(f (lambda (z) (* z (+ z 1))))
+6
+
+What happens if we (perversely) ask the interpreter to evaluate the combination (f f)? Explain.
+
+---
+
+The expression results in an error since f computes its argument with parameter 2, but if its argument is f itself, then it'll compute f(f) = f(2), but 2 is not a function so it'll throw an error.
